@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Full Stack project challenge for Alkemy",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsepic89/challege-alkemy.git"
+  },
+  "author": "Javier Sepic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jsepic89/challege-alkemy/issues"
+  },
+  "homepage": "https://github.com/jsepic89/challege-alkemy#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
