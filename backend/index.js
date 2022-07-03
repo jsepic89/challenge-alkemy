@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import { connect } from "./database/db.js";
-import userAuth from "./routes/authRoute.js";
 
 const app = express();
 
@@ -10,7 +9,7 @@ dotenv.config();
 app.use(express.json()); //body-parser no longer needed, insted this is the alternative
 app.use(express.urlencoded({ extended: false}));
 
-// DB connection test, see db.js for function description
+// DB connection test, refer to db.js for function description
 connect();
 
 

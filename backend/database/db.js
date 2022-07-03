@@ -15,10 +15,10 @@ const connection = mysql.createConnection({
 // note that the first time the code is executed, console will show errors because it will not find the database
 // at the same time, the database is being created, so those errors will not affect the program 
 connection.query(`CREATE DATABASE IF NOT EXISTS balance`, (error, results) => {
-    console.log(results);
-    console.log(error);
+    if (error){
+        console.log(error);
     }
-);
+});
 
 connection.end();
 
