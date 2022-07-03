@@ -1,24 +1,23 @@
 import express from "express";
-import mysql from "mysql";
 import dotenv from "dotenv";
+import userRoutes from "./routes/userRoutes.js";
+import { connect } from "./database/db.js";
+import userAuth from "./routes/authRoute.js";
 
 const app = express();
 
 dotenv.config();
+app.use(express.json()); //body-parser no longer needed, insted this is the alternative
+app.use(express.urlencoded({ extended: false}));
 
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD
-});
+// DB connection test, see db.js for function description
+connect();
 
 
-connection.connect( (err) => {
-    if (err) {
-        throw err
-    }
-    console.log("MySQL database connected successfully");
-});
+// Routing
+app.use('/', userRoutes);
+
+//app.use('/', userAuth);
 
 const PORT = process.env.PORT || 4000
 
