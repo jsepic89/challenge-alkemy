@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import { db } from "../database/db.js"
 import User from "./User.js";
 
-const Transaction = db.define('Transaction', {
+const Transaction = db.define('transaction', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -32,5 +32,7 @@ const Transaction = db.define('Transaction', {
 });
 
 Transaction.belongsTo(User);
+
+Transaction.sync();
 
 export default Transaction;

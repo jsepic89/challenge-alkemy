@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js"
 import { connect } from "./database/db.js";
 
 const app = express();
@@ -15,6 +16,7 @@ connect();
 
 // Routing
 app.use('/', userRoutes);
+app.use('/', transactionRoutes);
 
 //app.use('/', userAuth);
 

@@ -55,4 +55,9 @@ const userLogin = async (req, res) => {
     });
 };
 
-export { userRegister, userLogin };
+const userProfile = async (req, res) => {
+    console.log("El login funciona");
+    res.json({message: "El login funciona"});
+};
+
+export { userRegister, userLogin, userProfile };
