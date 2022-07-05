@@ -10,7 +10,7 @@ const userRegister = async (req, res) => {
 
     if (alreadyUser){
         console.log("User already registered");
-        return res.json("User already registered");
+        return res.json({ message: "User already registered"});
     }
 
     try {
@@ -19,7 +19,8 @@ const userRegister = async (req, res) => {
         email,
         password
         });
-        return res.json("User registered successfully"); 
+        console.log(user)
+        return res.json({ message: "User registered successfully"}); 
     } catch (error) {
         console.log(error);
     }
@@ -33,13 +34,13 @@ const userLogin = async (req, res) => {
     const isUser = await User.findOne({ where: {email}});
     
     if (!isUser){
-        return res.json("The user doesn't exist");
+        return res.json({ message: "The user doesn't exist"});
     }
 
     const correctPassword = await bcrypt.compare(password, isUser.password);
 
     if (!correctPassword){
-        return res.json("Invalid password");
+        return res.json({ message: "Invalid password"});
     }
 
     const token = jwt.sign({
