@@ -48,9 +48,11 @@
               <td>{{this.type}}</td>
               <td>{{this.amount}}</td>
               <td>{{this.category}}</td>
-              <td>
-                <a class="btn btn-secondary">Edit</a>
-                <a class="btn btn-danger">Delete</a>
+              <td class="d-flex justify-content-around">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateRecord">Edit</button>
+                <form action="/transactions/delete/{{this.id}}" method="POST">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
               </td>
             </tr>
             {{/each}}
@@ -103,7 +105,58 @@
                   <div class="modal-footer">
                     <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record"></input>
                   </div>
-                  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="updateRecord" tabindex="-1" role="dialog" aria-labelledby="updateRecord" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updateRecord">Update record</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/transactions/{{this.id}}" method="PUT">
+                  <div class="p-3">
+                    <div class="form-group">
+                    <label for="type" class="col-form-label d-block">Type</label>
+                    <select name="type" id="type" required>
+                      <option value="expense">Expense</option>
+                      <option value="credit">Credit</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount" class="col-form-label">Amount</label>
+                    <input type="number" step="any" class="form-control" id="amount" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="category" class="col-form-label d-block">Category</label>
+                    <select name="category" id="category" required>
+                      <option value="Other">Other</option>
+                      <option value="Salary">Salary</option>
+                      <option value="Services">Services</option>
+                      <option value="Investment">Investment</option>
+                      <option value="Groceries">Groceries</option>
+                      <option value="Shopping">Shopping</option>
+                      <option value="Travel">Travel</option>
+                      <option value="Subscriptions">Subscriptions</option>
+                      <option value="Gift">Gift</option>
+                      <option value="Doctor">Doctor</option>
+                      <option value="Pharmacy">Pharmacy</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="date" class="col-form-label">Date</label>
+                    <input type="date" class="form-control" id="date" required>
+                  </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Update"></input>
+                  </div>
                 </form>
               </div>
             </div>
@@ -113,10 +166,10 @@
 
     </div>
     
-    <footer class="fixed-bottom">
+    <footer class="mt-auto">
         <div class="text-center p-3 bg-primary" style="--bs-bg-opacity: .3">
             © Full stack project developed by Javier Sepic
-          </div>
+        </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>

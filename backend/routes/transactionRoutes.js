@@ -8,7 +8,7 @@ router.post('/create', authMiddleware, createTransaction);
 router.get('/', authMiddleware, getTransactions);
 router.get('/:id', authMiddleware, getOneTransaction);
 router.put('/:id', authMiddleware, editTransaction);
-router.delete('/:id', authMiddleware, deleteTransaction);
+router.delete('/delete/:id', authMiddleware, deleteTransaction);
 
 
 export default router;
