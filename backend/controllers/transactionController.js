@@ -12,14 +12,16 @@ const createTransaction = async (req, res) => {
         type,
         userId: req.user.id
     });
-    res.json(transaction);
+    res.status(200).redirect('transactions');
 };
 
 // getting all the records of the authenticated user, that is the reason of the filter "where userId = req.user.id"
 const getTransactions = async (req, res) => {
     const transactions = await Transaction.findAll({
-        where: { userId: req.user.id }
+        where: { userId: req.user.id },
+        raw: true
     });
+    
     res.json(transactions);
 };
 

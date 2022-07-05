@@ -4,11 +4,11 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post('/transactions', authMiddleware, createTransaction);
-router.get('/transactions', authMiddleware, getTransactions);
-router.get('/transactions/:id', authMiddleware, getOneTransaction);
-router.put('/transactions/:id', authMiddleware, editTransaction);
-router.delete('/transactions/:id', authMiddleware, deleteTransaction);
+router.post('/create', authMiddleware, createTransaction);
+router.get('/', authMiddleware, getTransactions);
+router.get('/:id', authMiddleware, getOneTransaction);
+router.put('/:id', authMiddleware, editTransaction);
+router.delete('/:id', authMiddleware, deleteTransaction);
 
 
 export default router;

@@ -30,18 +30,18 @@
         <h1 class="text-center">Expenses tracker</h1>
         <h5 class="text-justify mx-auto">Keep track of your current balance, register all your expenses and income easy!</h5>
         <p class="text-center mt-3">Please log in to get started. Or <a onclick="toggleLogin()" href="#" class="text-primary text-decoration-none">sign up</a> if you don't have an account.</p>
-        <form action="/users/login" method="POST" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto" id="login-form">
+        <form action="/auth/login" method="POST" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto" id="login-form">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control mb-2" id="email" aria-describedby="emailHelp" placeholder="Enter your email" required>
+                <input name="email" type="email" class="form-control mb-2" id="email" aria-describedby="emailHelp" placeholder="Enter your email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control mb-2" id="password" placeholder="Password" required>
+                <input name="password" type="password" class="form-control mb-2" id="password" placeholder="Password" required>
             </div>
             <input type="submit" class="btn btn-primary mt-2 w-100" value="Login"></input>
         </form> 
-        <form action="/users/register" method="POST" id="register-form" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto d-none">
+        <form action="/auth/register" method="POST" id="register-form" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto d-none">
             <div class="form-group">
                 <label for="newName">Name</label>
                 <input name="name" type="text" class="form-control mb-2" id="newName" aria-describedby="emailHelp" placeholder="Enter your user name" required>
@@ -62,7 +62,7 @@
         </form>
     </div>
     
-    <footer class="mt-auto">
+    <footer class="fixed-bottom">
         <div class="text-center p-3 bg-primary" style="--bs-bg-opacity: .3">
             © Full stack project developed by Javier Sepic
           </div>

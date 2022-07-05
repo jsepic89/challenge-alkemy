@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/674d6d1eb3.js" crossorigin="anonymous"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4" style="--bs-bg-opacity: .75">
+        <a class="navbar-brand px-2" href="#"><i class="fa-solid fa-piggy-bank mr-1"></i> Expenses Tracker</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#newRecord">New record</button>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Log out</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+    <div class="d-flex flex-column justify-content-center">
+        <h3 class="ml-5">Welcome, {{isUser.name}}{{user.name}} </h3>
+        <h3 class="ml-5">Your current balance is: {{balance}}
+        </h3>
+        <h5 class="ml-5 mt-3">Last records:</h5>
+        <table class="table table-hover">
+          <thead class="thead-light mt-2">
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Type</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Category</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each transactions}}
+            <tr>
+              <th scope="row">{{this.date}}</th>
+              <td>{{this.type}}</td>
+              <td>{{this.amount}}</td>
+              <td>{{this.category}}</td>
+              <td>
+                <a class="btn btn-secondary">Edit</a>
+                <a class="btn btn-danger">Delete</a>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="newRecord" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="newRecord">New record</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form action="/transactions/create" method="POST">
+                  <div class="p-3">
+                    <div class="form-group">
+                    <label for="type" class="col-form-label d-block">Type</label>
+                    <select name="type" id="type" required>
+                      <option value="expense">Expense</option>
+                      <option value="credit">Credit</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount" class="col-form-label">Amount</label>
+                    <input type="number" step="any" class="form-control" id="amount" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="category" class="col-form-label d-block">Category</label>
+                    <select name="category" id="category" required>
+                      <option value="Other">Other</option>
+                      <option value="Salary">Salary</option>
+                      <option value="Services">Services</option>
+                      <option value="Investment">Investment</option>
+                      <option value="Groceries">Groceries</option>
+                      <option value="Shopping">Shopping</option>
+                      <option value="Travel">Travel</option>
+                      <option value="Subscriptions">Subscriptions</option>
+                      <option value="Gift">Gift</option>
+                      <option value="Doctor">Doctor</option>
+                      <option value="Pharmacy">Pharmacy</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="date" class="col-form-label">Date</label>
+                    <input type="date" class="form-control" id="date" required>
+                  </div>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record"></input>
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+    </div>
+    
+    <footer class="fixed-bottom">
+        <div class="text-center p-3 bg-primary" style="--bs-bg-opacity: .3">
+            © Full stack project developed by Javier Sepic
+          </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</body>
+</html>
