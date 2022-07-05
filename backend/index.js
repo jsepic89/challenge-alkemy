@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import transactionRoutes from "./routes/transactionRoutes.js"
 import { connect } from "./database/db.js";
-import { engine } from "express-handlebars";
+import { engine, create } from "express-handlebars";
 import authRoutes from "./routes/authRoutes.js"
 
 const app = express();

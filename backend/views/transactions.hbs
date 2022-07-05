@@ -48,16 +48,17 @@
               <td>{{this.type}}</td>
               <td>{{this.amount}}</td>
               <td>{{this.category}}</td>
-              <td class="d-flex justify-content-around">
+              <td>
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateRecord">Edit</button>
-                <form action="/transactions/delete/{{this.id}}" method="POST">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <button type="button" class="btn btn-danger">
+                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light">Delete</a>
+                </button>
               </td>
             </tr>
             {{/each}}
           </tbody>
         </table>
+      <!-- First modal, for the creation of a new record -->
         <div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="newRecord" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -110,6 +111,8 @@
             </div>
           </div>
         </div>
+
+        <!-- Second modal, for updating a record -->
         <div class="modal fade" id="updateRecord" tabindex="-1" role="dialog" aria-labelledby="updateRecord" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -124,18 +127,18 @@
                   <div class="p-3">
                     <div class="form-group">
                     <label for="type" class="col-form-label d-block">Type</label>
-                    <select name="type" id="type" required>
+                    <select name="type" id="type" value="{{this.type}}" required>
                       <option value="expense">Expense</option>
                       <option value="credit">Credit</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="amount" class="col-form-label">Amount</label>
-                    <input type="number" step="any" class="form-control" id="amount" required>
+                    <input type="number" step="any" class="form-control" id="amount" value="{{this.amount}}" required>
                   </div>
                   <div class="form-group">
                     <label for="category" class="col-form-label d-block">Category</label>
-                    <select name="category" id="category" required>
+                    <select name="category" id="category" value="{{this.category}}" required>
                       <option value="Other">Other</option>
                       <option value="Salary">Salary</option>
                       <option value="Services">Services</option>
@@ -151,7 +154,7 @@
                   </div>
                   <div class="form-group">
                     <label for="date" class="col-form-label">Date</label>
-                    <input type="date" class="form-control" id="date" required>
+                    <input type="date" class="form-control" id="date" value="{{this.date}}" required>
                   </div>
                   </div>
                   <div class="modal-footer">
@@ -166,7 +169,7 @@
 
     </div>
     
-    <footer class="mt-auto">
+    <footer class="fixed-bottom">
         <div class="text-center p-3 bg-primary" style="--bs-bg-opacity: .3">
             © Full stack project developed by Javier Sepic
         </div>
