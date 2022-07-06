@@ -9,26 +9,22 @@
     <script src="https://kit.fontawesome.com/674d6d1eb3.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4" style="--bs-bg-opacity: .75">
-        <a class="navbar-brand px-2" href="#"><i class="fa-solid fa-piggy-bank mr-1"></i> Expenses Tracker</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#newRecord">New record</button>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Log out</a>
-            </li>
-          </ul>
-        </div>
-    </nav>
+    {{#if user}}
+    {{> loggedInNavbar}}
+    {{else if isUser}}
+    {{> loggedInNavbar}}
+    {{else}}
+    {{> landingNavbar}}
+    {{/if}}
     <div class="container">
+        
         {{{body}}}
     </div>
+    <footer class="fixed-bottom">
+        <div class="text-center p-3 bg-primary" style="--bs-bg-opacity: .3">
+            © Full stack project developed by Javier Sepic
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 
 </body>
