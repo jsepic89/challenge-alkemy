@@ -8,7 +8,7 @@ const authMiddleware = async (req, res, next) => {
     
     const token = req.headers.authorization && req.headers.authorization.startsWith("Bearer") ? 
         req.headers.authorization.split(" ")[1] : null;
-
+    console.log(req.headers)
     console.log(token);
 
     try {

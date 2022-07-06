@@ -12,11 +12,16 @@ const router = express.Router();
 // body will be hashed before being stored 
 router.post('/register', async (req, res, next) => {
     
-    const { name, email, password } = await req.body;
+    const { name, email, password, confirmPassword } = await req.body;
     const alreadyUser = await User.findOne({ where: {email}});
     
     if (alreadyUser){
         let error = new Error("User already registered");
+        return res.json({ message: error.message});
+    }
+
+    if (password !== confirmPassword){
+        let error = new Error("Please check that the passwords are the same");
         return res.json({ message: error.message});
     }
     
@@ -36,7 +41,7 @@ router.post('/register', async (req, res, next) => {
         const transactions = await Transaction.findAll({
             where: { userId: user.id }
         });
-        res.render('transactions', {transactions, user});
+        res.status(200).render('transactions', {transactions, user});
         //res.status(200).json({ message: "User registered successfully", token});
     } catch (error) {
         console.log(error);
@@ -70,7 +75,7 @@ router.post('/login', async (req, res) => {
         where: { userId: isUser.id }
     });
     const balance = transactions.reduce((accum, elem) => {accum + Number(elem.amount)}, 0);
-    
+
     res.render('transactions', {transactions, isUser, balance});
 });
 
