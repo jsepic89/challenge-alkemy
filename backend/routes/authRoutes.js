@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
     const transactions = await Transaction.findAll({
         where: { userId: user.id }
     });
-    const balance = transactions.reduce((accum, elem) => {accum + Number(elem.amount)}, 0);
+    const balance = transactions.reduce((accum, elem) => accum + Number(elem.amount), 0);
 
     res.render('transactions', {transactions, user, balance, token});
 });
