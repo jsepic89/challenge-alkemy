@@ -32,7 +32,7 @@
               <td>
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateRecord">Edit</button>
                 <button type="button" class="btn btn-danger">
-                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light">Delete</a>
+                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light" onclick="handleDelete()">Delete</a>
                 </button>
               </td>
             </tr>
@@ -61,7 +61,7 @@
                   </div>
                   <div class="form-group">
                     <label for="amount" class="col-form-label">Amount</label>
-                    <input type="number" step="any" class="form-control" id="amount" required>
+                    <input name="amount" type="number" step="any" class="form-control" id="amount" required>
                   </div>
                   <div class="form-group">
                     <label for="category" class="col-form-label d-block">Category</label>
@@ -81,7 +81,7 @@
                   </div>
                   <div class="form-group">
                     <label for="date" class="col-form-label">Date</label>
-                    <input type="date" class="form-control" id="date" required>
+                    <input name="date" type="date" class="form-control" id="date" required>
                   </div>
                   </div>
                   <div class="modal-footer">
@@ -150,4 +150,5 @@
 
     </div>
 </body>
+
 </html>

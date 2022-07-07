@@ -68,7 +68,7 @@ const editTransaction = async (req, res) => {
 // almost identical to getting one specific record, but using the destroy() method
 const deleteTransaction = async (req, res) => {
     const id = req.params.id;
-    
+        
     const transaction = await Transaction.findOne({
         where: { userId: req.user.id, id}
     });

@@ -10,7 +10,7 @@
     <div class="d-flex flex-column justify-content-center">
         <h1 class="text-center">Expenses tracker</h1>
         <h5 class="text-justify mx-auto">Keep track of your current balance, register all your expenses and income easy!</h5>
-        <p class="text-center mt-3">Please log in to get started. Or <a onclick="toggleLogin()" href="#" class="text-primary text-decoration-none">sign up</a> if you don't have an account.</p>
+        <p class="text-center mt-3">Please log in to get started. Or <a href="#" class="text-primary text-decoration-none" onclick="toggleLogin()">sign up</a> if you don't have an account.</p>
         <form action="/auth/login" method="POST" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto" id="login-form">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -20,7 +20,7 @@
                 <label for="password">Password</label>
                 <input name="password" type="password" class="form-control mb-2" id="password" placeholder="Password" required>
             </div>
-            <input type="submit" class="btn btn-primary mt-2 w-100" value="Login"></input>
+            <input type="submit" class="btn btn-primary mt-2 w-100" value="Login" onclick="handleLogin()"></input>
         </form> 
         <form action="/auth/register" method="POST" id="register-form" class="col-xs-8 col-sm-6 col-md-6 col-lg-6 justify-content-center m-auto d-none">
             <div class="form-group">
@@ -63,7 +63,6 @@
         loginForm.classList.remove('d-none');
         registerForm.classList.add('d-none');
     }
-
 
 </script>
 

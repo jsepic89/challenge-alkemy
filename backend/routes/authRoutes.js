@@ -1,7 +1,6 @@
 import express from "express";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import authMiddleware from "../middlewares/authMiddleware.js";
 import bcrypt from "bcryptjs";
 import Transaction from "../models/Transaction.js";
 
@@ -41,8 +40,7 @@ router.post('/register', async (req, res, next) => {
         const transactions = await Transaction.findAll({
             where: { userId: user.id }
         });
-        res.status(200).render('transactions', {transactions, user});
-        //res.status(200).json({ message: "User registered successfully", token});
+        res.status(200).render('transactions', {transactions, user, token});
     } catch (error) {
         console.log(error);
     }
@@ -52,14 +50,14 @@ router.post('/register', async (req, res, next) => {
 // if credentials are OK, a jsonwebtoken for 30 days is generated. Name, id and token are returned via json
 router.post('/login', async (req, res) => {
     const { email, password } = await req.body;
-    const isUser = await User.findOne({ where: {email}, raw: true });
+    const user = await User.findOne({ where: {email}, raw: true });
     
-    if (!isUser){
+    if (!user){
         let error = new Error("The user doesn't exist");
         return res.json({ message: error.message});
     }
 
-    const correctPassword = await bcrypt.compare(password, isUser.password);
+    const correctPassword = await bcrypt.compare(password, user.password);
 
     if (!correctPassword){
         let error = new Error("Invalid password");
@@ -67,16 +65,16 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign({
-        name: isUser.name,
-        id: isUser.id
+        name: user.name,
+        id: user.id
     }, process.env.JWT_KEY, { expiresIn: "30d" });
 
     const transactions = await Transaction.findAll({
-        where: { userId: isUser.id }
+        where: { userId: user.id }
     });
     const balance = transactions.reduce((accum, elem) => {accum + Number(elem.amount)}, 0);
 
-    res.render('transactions', {transactions, isUser, balance});
+    res.render('transactions', {transactions, user, balance, token});
 });
 
 // User profile with a middleware to check if the user is logged in
