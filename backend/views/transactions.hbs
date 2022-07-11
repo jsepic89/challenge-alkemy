@@ -5,6 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expenses tracker</title>
+    <script>
+      document.addEventListener('DOMContentLoaded', ()=> {
+      window.localStorage.setItem('token', "{{token}}");
+  });
+    </script>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <div class="d-flex flex-column justify-content-center">
@@ -37,7 +42,7 @@
               <td>
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateRecord">Edit</button>
                 <button type="button" class="btn btn-danger">
-                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light" onclick="handleDelete()">Delete</a>
+                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light" id="deleteButton">Delete</a>
                 </button>
               </td>
             </tr>
@@ -88,7 +93,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record"></input>
+                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record" onclick="handleCreate(e)"></input>
                   </div>
                 </form>
               </div>
@@ -105,7 +110,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="/transactions/{{this.id}}" method="PUT">
+                <form action="/transactions/{{this.id}}" method="PUT" id="updateForm">
                   <div class="p-3">
                     <div class="form-group">
                     <label for="type" class="col-form-label d-block">Type</label>
@@ -140,7 +145,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Update"></input>
+                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Update" id="updateButton"></input>
                   </div>
                 </form>
               </div>
@@ -151,5 +156,53 @@
 
     </div>
 </body>
+<script>
+  document.getElementById("updateButton").addEventListener("click", updateBtn);
 
+  function updateBtn(e){
+    e.preventDefault();
+    var token = JSON.parse(localStorage.getItem('token'));
+    var url = document.getElementById('updateForm').action
+    fetch(url, {
+        method: 'PUT',
+        body: {
+          type: req.type,
+          amount: req.amount,
+          category: req.category,
+          date: req.date
+        },
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            // window.location.href = 'http://localhost:3000/dashboard';
+        })
+        .catch(err => { console.log(err) })
+  };
+
+  document.getElementById("deleteButton").addEventListener("click", deleteButton);
+
+  function deleteButton(e){
+    e.preventDefault();
+    var token = localStorage.getItem('token');
+    var url = document.getElementById("deleteButton").href;
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(res => res.json())
+        .then(data => {
+          return window.location.reload();
+        })
+        .catch(err => console.log(err));
+
+  }
+
+</script>
 </html>

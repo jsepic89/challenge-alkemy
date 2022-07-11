@@ -75,7 +75,7 @@ const deleteTransaction = async (req, res) => {
 
     if (transaction){
         await transaction.destroy();
-        res.status(200).render('transactions').json({message: "Transaction deleted"});
+        res.status(200);
     } else {
         const error = new Error("No results found")
         return res.status(404).json({message: error.message})
