@@ -93,7 +93,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record" onclick="handleCreate(e)"></input>
+                    <input type="submit" class="btn btn-primary mt-4 w-100" value="Save record" id="createRecord"></input>
                   </div>
                 </form>
               </div>
@@ -114,18 +114,18 @@
                   <div class="p-3">
                     <div class="form-group">
                     <label for="type" class="col-form-label d-block">Type</label>
-                    <select name="type" id="type" value="{{this.type}}" required>
+                    <select name="newType" id="newType" value="{{this.type}}" required>
                       <option value="Expense">Expense</option>
                       <option value="Credit">Credit</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="amount" class="col-form-label">Amount</label>
-                    <input type="number" step="any" class="form-control" id="amount" value="{{this.amount}}" required>
+                    <input name="newAmount" type="number" step="any" class="form-control" id="newAmount" value="{{this.amount}}" required>
                   </div>
                   <div class="form-group">
                     <label for="category" class="col-form-label d-block">Category</label>
-                    <select name="category" id="category" value="{{this.category}}" required>
+                    <select name="newCategory" id="newCategory" value="{{this.category}}" required>
                       <option value="Other">Other</option>
                       <option value="Salary">Salary</option>
                       <option value="Services">Services</option>
@@ -141,7 +141,7 @@
                   </div>
                   <div class="form-group">
                     <label for="date" class="col-form-label">Date</label>
-                    <input type="date" class="form-control" id="date" value="{{this.date}}" required>
+                    <input name="newDate" type="date" class="form-control" id="newDate" value="{{this.date}}" required>
                   </div>
                   </div>
                   <div class="modal-footer">
@@ -157,11 +157,38 @@
     </div>
 </body>
 <script>
+  document.getElementById("createRecord").addEventListener("click", createRecord);
+
+  async function createRecord(e){
+    e.preventDefault();
+    var token = localStorage.getItem('token');
+    var url = "/transactions/create";
+    req.body.type = document.getElementById('type').value;
+    req.body.amount = document.getElementById('amount').value;
+    req.body.category = document.getElementById('category').value;
+    req.body.date = document.getElementById('date').value;
+    await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          type: req.body.type,
+          amount: req.body.amount,
+          category: req.body.category,
+          date: req.body.date
+        }),
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(res => res.json())
+        .then(res => window.location.reload(true))
+        .catch(err => console.log(err));
+  };
+
   document.getElementById("updateButton").addEventListener("click", updateBtn);
 
   function updateBtn(e){
     e.preventDefault();
-    var token = JSON.parse(localStorage.getItem('token'));
+    var token = localStorage.getItem('token');
     var url = document.getElementById('updateForm').action
     fetch(url, {
         method: 'PUT',
@@ -178,18 +205,16 @@
         .then(res => res.json())
         .then(data => {
             console.log(data)
-            // window.location.href = 'http://localhost:3000/dashboard';
+            window.location.reload();
         })
         .catch(err => { console.log(err) })
   };
 
   document.getElementById("deleteButton").addEventListener("click", deleteButton);
-
   function deleteButton(e){
     e.preventDefault();
     var token = localStorage.getItem('token');
     var url = document.getElementById("deleteButton").href;
-
     fetch(url, {
         method: 'DELETE',
         headers: {
@@ -201,7 +226,6 @@
           return window.location.reload();
         })
         .catch(err => console.log(err));
-
   }
 
 </script>

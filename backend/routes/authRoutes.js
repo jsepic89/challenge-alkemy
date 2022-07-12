@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import Transaction from "../models/Transaction.js";
+import axios from "axios";
 
 const router = express.Router();
 
@@ -40,6 +41,7 @@ router.post('/register', async (req, res, next) => {
         const transactions = await Transaction.findAll({
             where: { userId: user.id }
         });
+        axios.defaults.headers.common['authorization'] = token;
         res.status(200).render('transactions', {transactions, user, token});
     } catch (error) {
         console.log(error);
@@ -74,6 +76,7 @@ router.post('/login', async (req, res) => {
     });
     const balance = transactions.reduce((accum, elem) => accum + Number(elem.amount), 0);
 
+    axios.defaults.headers.common['authorization'] = token;
     res.render('transactions', {transactions, user, balance, token});
 });
 
