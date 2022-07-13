@@ -13,7 +13,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <div class="d-flex flex-column justify-content-center">
-        <h3 class="ml-5">Welcome, {{isUser.name}}{{user.name}} </h3>
+        <h3 class="ml-5">Welcome, {{user.name}} </h3>
         <h3 class="ml-5">Your current balance is: $ 
           {{#if balance}} 
           {{balance}} 
@@ -22,6 +22,7 @@
           {{/if}}
         </h3>
         <h5 class="ml-5 mt-3">Last records:</h5>
+        
         <table class="table table-hover">
           <thead class="thead-light mt-2">
             <tr>
@@ -39,16 +40,17 @@
               <td>{{this.type}}</td>
               <td>{{this.amount}}</td>
               <td>{{this.category}}</td>
-              <td>
+              <td class="d-flex flex-column flex-lg-row flex-xl-row gap-1">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateRecord">Edit</button>
                 <button type="button" class="btn btn-danger">
-                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light" id="deleteButton">Delete</a>
+                  <a href="/transactions/delete/{{this.id}}" class="text-decoration-none text-white color-light deleteButton">Delete</a>
                 </button>
               </td>
             </tr>
             {{/each}}
           </tbody>
         </table>
+        
       <!-- First modal, for the creation of a new record -->
         <div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="newRecord" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -157,50 +159,73 @@
     </div>
 </body>
 <script>
+  function getHeaders(){
+    const token = localStorage.getItem('token');
+    return {
+          'Authorization': 'Bearer ' + token
+      }
+  }
+
   document.getElementById("createRecord").addEventListener("click", createRecord);
 
   async function createRecord(e){
     e.preventDefault();
-    var token = localStorage.getItem('token');
-    var url = "/transactions/create";
-    req.body.type = document.getElementById('type').value;
-    req.body.amount = document.getElementById('amount').value;
-    req.body.category = document.getElementById('category').value;
-    req.body.date = document.getElementById('date').value;
-    await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({
-          type: req.body.type,
-          amount: req.body.amount,
-          category: req.body.category,
-          date: req.body.date
-        }),
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    })
-        .then(res => res.json())
-        .then(res => window.location.reload(true))
-        .catch(err => console.log(err));
-  };
+    const isValidType = type.checkValidity();
+    const isValidAmount = amount.checkValidity();
+    const isValidCategory = category.checkValidity();
+    const isValidDate = date.checkValidity();
+
+    if (isValidAmount && isValidType && isValidCategory && isValidDate){
+      const url = "http://localhost:4000/transactions/create";
+      let type = document.getElementById('type').value
+      let amount = document.getElementById('amount').value
+      let category = document.getElementById('category').value
+      let date = document.getElementById('date').value
+      await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({
+            type,
+            amount,
+            category,
+            date
+          }),
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+          }
+      })
+          .then(res => res.json())
+          .then(res => {
+            return window.location.reload(); 
+          })
+          .catch(err => console.log(err));
+    } else {
+      alert("All fields are required");
+    }
+  }
+
 
   document.getElementById("updateButton").addEventListener("click", updateBtn);
 
   function updateBtn(e){
     e.preventDefault();
-    var token = localStorage.getItem('token');
-    var url = document.getElementById('updateForm').action
+    let type = document.getElementById('newType').value
+    let amount = document.getElementById('newAmount').value
+    let category = document.getElementById('newCategory').value
+    let date = document.getElementById('newDate').value
+    const url = document.getElementById('updateForm').action
     fetch(url, {
         method: 'PUT',
-        body: {
-          type: req.type,
-          amount: req.amount,
-          category: req.category,
-          date: req.date
-        },
+        body: JSON.stringify({
+          type,
+          amount,
+          category,
+          date
+        }),
         headers: {
-            'Authorization': 'Bearer ' + token
-        }
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+          }
     })
         .then(res => res.json())
         .then(data => {
@@ -210,23 +235,21 @@
         .catch(err => { console.log(err) })
   };
 
-  document.getElementById("deleteButton").addEventListener("click", deleteButton);
-  function deleteButton(e){
+  document.querySelectorAll("a.deleteButton").forEach(item => {
+    item.addEventListener("click", deleteButton)});
+  async function deleteButton(e){
     e.preventDefault();
-    var token = localStorage.getItem('token');
-    var url = document.getElementById("deleteButton").href;
-    fetch(url, {
+    const url = this.href;
+    await fetch(url, {
         method: 'DELETE',
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
+        headers: getHeaders()
     })
         .then(res => res.json())
         .then(data => {
           return window.location.reload();
         })
         .catch(err => console.log(err));
-  }
-
+  }; 
+  
 </script>
 </html>

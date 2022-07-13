@@ -4,7 +4,6 @@ import Transaction from "../models/Transaction.js";
 // that will be taken from the authenticated user defined in the authMiddleware
 const createTransaction = async (req, res) => {
     const { description, amount, date, category, type } = req.body;
-    console.log(req.body);
     const transaction = await Transaction.create({
         description,
         amount,
@@ -20,6 +19,7 @@ const createTransaction = async (req, res) => {
 const getTransactions = async (req, res) => {
     const transactions = await Transaction.findAll({
         where: { userId: req.user.id },
+        order: [['date', 'DESC']],
         raw: true
     });
     
@@ -76,7 +76,7 @@ const deleteTransaction = async (req, res) => {
 
     if (transaction){
         await transaction.destroy();
-        res.redirect('transactions'); //this is now redirecting to /auth/login
+        res.redirect('transactions');
     } else {
         const error = new Error("No results found")
         return res.status(404).json({message: error.message})

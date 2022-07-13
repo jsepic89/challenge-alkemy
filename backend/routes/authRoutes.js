@@ -72,18 +72,24 @@ router.post('/login', async (req, res) => {
     }, process.env.JWT_KEY, { expiresIn: "30d" });
 
     const transactions = await Transaction.findAll({
-        where: { userId: user.id }
+        where: { userId: user.id },
+        limit: 10,
+        order: [['date', 'DESC']]
     });
-    const balance = transactions.reduce((accum, elem) => accum + Number(elem.amount), 0);
+    const balance = transactions.reduce((accum, elem) => {
+        if (elem.type == "Expense"){
+            elem.amount = 0 - Number(elem.amount)
+        }
+        return accum + Number(elem.amount)
+    }, 0);
 
-    axios.defaults.headers.common['authorization'] = token;
     res.render('transactions', {transactions, user, balance, token});
 });
 
-// User profile with a middleware to check if the user is logged in
+// logout removes the token from localstorage in the client side, and redirects to the home in the server side
 router.post('/logout', (req, res)=>{
 
-    return res.status(200).json({message: "Logout successful"});
+    res.redirect('home');
 } );
 
 export default router;

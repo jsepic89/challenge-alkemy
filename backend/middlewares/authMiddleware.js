@@ -6,10 +6,10 @@ import User from "../models/User.js";
 // execute the next controller using next()
 const authMiddleware = async (req, res, next) => {
     
-    const token = req.headers.authorization && req.headers.authorization.startsWith("Bearer") ? 
-        req.headers.authorization.split(" ")[1] : null;
-
     try {
+        const token = req.headers.authorization && req.headers.authorization.startsWith("Bearer") ? 
+            req.headers.authorization.split(" ")[1] : null;
+
         const decodedToken = jwt.verify(token, process.env.JWT_KEY);
 
         req.user = await User.findOne({ where: { id: decodedToken.id }, attributes: { exclude: "password"}});
