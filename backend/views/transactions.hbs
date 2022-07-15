@@ -152,5 +152,14 @@
         })
         .catch(err => console.log(err));
   };
+
+  document.getElementById("logoutButton").addEventListener("click", logoutBtn);
+  
+  async function logoutBtn(e){
+    const url = document.getElementById("logoutButton").href;
+    e.preventDefault();
+    localStorage.removeItem('token');
+    await fetch(url).then(res => return res).catch(err => console.log(err));
+  }
 </script>
 </html>

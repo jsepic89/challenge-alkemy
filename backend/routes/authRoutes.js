@@ -73,7 +73,6 @@ router.post('/login', async (req, res) => {
 
     const transactions = await Transaction.findAll({
         where: { userId: user.id },
-        limit: 10,
         order: [['date', 'DESC']]
     });
     const balance = transactions.reduce((accum, elem) => {
@@ -87,9 +86,9 @@ router.post('/login', async (req, res) => {
 });
 
 // logout removes the token from localstorage in the client side, and redirects to the home in the server side
-router.post('/logout', (req, res)=>{
+router.get('/logout', (req, res)=>{
 
-    res.redirect('home');
+    res.redirect('/');
 } );
 
 export default router;
